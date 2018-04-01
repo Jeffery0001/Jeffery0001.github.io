@@ -24,7 +24,7 @@
                 console.log(city);
                 $(".container").empty();
                 $.ajax({
-                    url: "http://api.openweathermap.org/data/2.5/forecast/daily",
+                    url: "https://api.openweathermap.org/data/2.5/forecast/daily",
                     data: {
                         q: city,
                         appid: "b1ecbccd638b763d489602917ba47cc3",
@@ -48,7 +48,7 @@
                             let content =
                                 `<div class="box">` +
                                 `<div class="temp">${temp}</div>` +
-                                `<img src="http://openweathermap.org/img/w/${icon}.png">` +
+                                `<img src="https://openweathermap.org/img/w/${icon}.png">` +
                                 `<div class="date">${month}-${date}</div>` +
                                 `<div class="day">${days[day]}</div>` +
                                 `<div class="desc">${desc}</div>` +
