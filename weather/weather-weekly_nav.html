@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .container {
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            background-color: #eee;
+            padding: 15px;
+            margin: 10px;
+        }
+    </style>
+    <script src="jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("nav a").click(function() {
+                let city = $(this).data("value");
+                console.log(city);
+                $(".container").empty();
+                $.ajax({
+                    url: "http://api.openweathermap.org/data/2.5/forecast/daily",
+                    data: {
+                        q: city,
+                        appid: "b1ecbccd638b763d489602917ba47cc3",
+                        units: "metric",
+                        lang: "zh_TW"
+                    },
+                    success: function(e) {
+                        $(e.list).each(function() {
+                            let temp = this.temp.day;
+                            let desc = this.weather[0].description;
+                            let dt = this.dt;
+                            let myDate = new Date(dt * 1000);
+                            let year = myDate.getFullYear();
+                            let month = myDate.getMonth() + 1;
+                            let date = myDate.getDate();
+                            let day = myDate.getDay();
+                            let days = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+                            let days_jp = ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"];
+                            console.log(`${year}年${month}月${date}日 ${days_jp[day]}`);
+                            let icon = this.weather[0].icon;
+                            let content =
+                                `<div class="box">` +
+                                `<div class="temp">${temp}</div>` +
+                                `<img src="http://openweathermap.org/img/w/${icon}.png">` +
+                                `<div class="date">${month}-${date}</div>` +
+                                `<div class="day">${days[day]}</div>` +
+                                `<div class="desc">${desc}</div>` +
+                                `</div>`;
+                            $(".container").append(content);
+
+                        })
+                    },
+                    error: function() {
+
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <nav>
+        <a href="#" data-value="Taipei">台北</a>
+        <a href="#" data-value="Taoyuan">桃園</a>
+        <a href="#" data-value="Tokyo">東京</a>
+        <a href="#" data-value="Osaka">大阪</a>
+    </nav>
+    <div class="container"></div>
+</body>
+</html>

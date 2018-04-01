@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="jquery-1.12.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                // 抓取 OpenweatherMap 網站天氣資料-即時, 使用 API
+                // Chrome 先安裝 JSONVIEW plugin, 解析 JSON 格式
+                url: "https://api.openweathermap.org/data/2.5/weather?q=Taoyuan&appid=b1ecbccd638b763d489602917ba47cc3&units=metric&lang=zh_TW",
+                success:function(e){
+                    // console.log(e.wind.speed);
+                    // console.log(e.weather[0].description);
+                    let temp = Math.round(e.main.temp);
+                    let max = e.main.temp_max;
+                    let min = e.main.temp_min;
+                    let humidity = e.main.humidity;
+                    let desc = e.weather[0].description;
+
+                    let content = 
+                    `<div>今日氣溫 ${temp}度</div>`+
+                        `<div>最高溫 ${max}度,最低溫 ${min}度</div>`+
+                        `<div>濕度 ${humidity}%</div>`+
+                        `<div>${desc}</div>`;
+                    
+                    $(".container").append(content);
+                },
+                error:function(){
+                    console.log("error")
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <div class="container"></div>
+</body>
+</html>
